@@ -1,0 +1,36 @@
+# ملفات البيئة الحساسة
+.env
+.env.*
+auth.json
+
+# ملفات النظام أو المحرر
+.DS_Store
+Thumbs.db
+.phpactor.json
+.phpunit.result.cache
+/.idea
+/.vscode
+/.fleet
+/.zed
+
+# Laravel
+/vendor
+/node_modules
+/public/storage
+/public/hot
+/public/build
+/storage/*.key
+/storage/*.log
+/storage/debugbar
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/views
+/storage/pail
+/bootstrap/cache/*.php
+
+# Homestead
+Homestead.yaml
+Homestead.json
+
+# Git
+*.log
