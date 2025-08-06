@@ -1,61 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Secure Login Audit Starter
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+نظام تسجيل دخول آمن مبني باستخدام Laravel + Docker، مزود بميزات متقدمة مثل تسجيل محاولات الدخول، حماية ضد الهجمات، عرض سجلات الدخول للمشرف، حماية الجلسات، والمزيد.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- ✅ تسجيل محاولات الدخول الناجحة والفاشلة مع IP و User-Agent ووقت الدخول.
+- 🚨 تنبيه عند رصد محاولات brute-force.
+- 👮 صفحة خاصة للمشرف لعرض جميع سجلات الدخول (Audit Logs).
+- 🔐 حماية الجلسات وتخزينها في قاعدة البيانات.
+- 🛡️ حماية مدمجة ضد CSRF و XSS.
+- 🐳 جاهز للعمل باستخدام Docker.
+-  Laravel Breeze (Auth Scaffolding) سريع وخفيف.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Installation (Manual Setup)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+> **متطلبات التشغيل يدويًا:**
+> - PHP 8.2+
+> - Composer
+> - MySQL
+> - Node.js + npm
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clone الريبو
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git clone https://github.com/Solimansorks/secure-login-audit-starter.git
+cd secure-login-audit-starter
+```
 
-## Laravel Sponsors
+### 2. إعداد Laravel
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+```
 
-### Premium Partners
+### 3. إعداد قاعدة البيانات
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- أنشئ قاعدة بيانات جديدة باسم: `secure_login`
+- حدّث بيانات الاتصال داخل ملف `.env`
 
-## Contributing
+```env
+DB_DATABASE=secure_login
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Run migrations
 
-## Code of Conduct
+```bash
+php artisan migrate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. إعداد الواجهة
 
-## Security Vulnerabilities
+```bash
+npm install
+npm run dev
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 6. شغل التطبيق
 
-## License
+```bash
+php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+افتح: `http://localhost:8000`
+
+---
+
+## Using Docker (بدون إعداد محلي)
+
+> **المتطلبات الوحيدة:**  
+> - [Docker](https://www.docker.com/)  
+> - [Docker Compose](https://docs.docker.com/compose/)
+
+### 1. شغل المشروع داخل Docker
+
+```bash
+docker compose up -d --build
+```
+
+### 2. الدخول للحاوية (Container)
+
+```bash
+docker exec -it secure_laravel_app bash
+```
+
+### 3. داخل الحاوية، شغل:
+
+```bash
+composer install
+php artisan migrate
+npm install
+npm run build
+```
+
+### 4. افتح في المتصفح:
+
+```
+http://localhost:8001
+```
+
+---
+
+##  Security Features
+
+| الميزة                        | التفاصيل |
+|------------------------------|----------|
+| تسجيل محاولات الدخول         | يتم تسجيل كل محاولة مع IP و Agent والنجاح أو الفشل |
+| تنبيه اختراق محتمل          | يتم تسجيل الإنذارات عند تكرار محاولات فشل متعددة |
+| حماية الجلسات               | الجلسات مخزنة في قاعدة البيانات |
+| حماية CSRF                  | مفعّلة تلقائيًا في Laravel |
+| حماية XSS                   | مفعّلة افتراضيًا داخل Blade |
+
+---
+
+##  Admin Routes
+
+| الصفحة         | الرابط              | ملاحظات                     |
+|----------------|---------------------|------------------------------|
+| لوحة التحكم     | `/dashboard`         | تتطلب تسجيل دخول             |
+| سجل الدخول     | `/audit-logs`        | تتطلب صلاحية المشرف         |
+| إعدادات الحساب | `/profile`           | تعديل معلومات المستخدم      |
+
+---
+
+##  Folder Structure
+
+```txt
+secure-login-audit-starter/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   └── Middleware/
+│   ├── Models/
+│   └── Providers/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── public/
+├── resources/
+│   ├── views/
+│   └── js/
+├── routes/
+│   ├── web.php
+│   └── auth.php
+├── docker-compose.yml
+├── Dockerfile
+└── .env
+```
+
+---
+
+##  Developer
+
+- 👤 **Mohamed Soliman**
+-  GitHub: [@Solimansorks](https://github.com/Solimansorks)
+
+---
+
+##  License
+
+هذا المشروع مفتوح المصدر ومتاح بموجب رخصة [MIT License](LICENSE).
